@@ -1,4 +1,4 @@
-# CriptoBank
+# CryptoBank
 
 Simulador de banca que permita a sus clientes realizar operaciones financieras, como por ejemplo ingreso de dinero, retirada de dinero, o consultar movimientos. Ademas de esto tambien ofrece un servicio propio de criptomoneda.
 
