@@ -16,7 +16,8 @@ typedef struct{ // DATOS DE CLIENTES NUEVOS
 }datosCliente;
 
 int main(){
-	int menu;
+	int menu, op;
+    float cantidad;
 	int salida = 0; // INDICA CUANDO DEBE TERMINAR EL PROGRAMA 
 	int intentosUsuario = 5, intentosClave = 5; // VECES QUE PUEDE EQUIVOCARSE EL USUARIO AL INTRODUCIR LOS DATOS
 	datosUsuario usuario1 = {"abel", "1234", 100}; // DECLARACION DE CLIENTE PARA REALIZAR PRUEBA DEL PROGRAMA
@@ -24,7 +25,7 @@ int main(){
 	
 	do{
 		printf("\n\n - Bienvenido a CryptoBank.\n\n");
-		printf("\t1) Iniciar sesion\n\t2) Registrarse\n\t3) Salir ");
+		printf("\t1) Iniciar sesion\n\t2) Registrarse\n\t3) Salir \n\t");
 			scanf("%i", &menu);
 		switch(menu){
 			case 1:
@@ -42,9 +43,40 @@ int main(){
 							// LA CLAVE ES CORRECTA
 							if(comprobarClave(usuario1.clave, cliente1.clave) == 0){ 
 								printf("\n\tHola %s, bienvenido a tu area personal.", usuario1.usuario);
-								printf("\n\n\t\t1) Retirar efectivo\n\t\t2) Ingresar efectivo\n\t\t3) Consultar saldo\n\t\t4) Consultar movimientos\n\t\t5) Cambiar pin");
-								/*switch(){ 
-								}*/
+								do{
+                                    printf("\n\n\t\t1) Retirar efectivo\n\t\t2) Ingresar efectivo\n\t\t3) Consultar saldo\n\t\t4) Consultar movimientos\n\t\t5) Cambiar pin \n\t");
+                                    scanf("%i", &op);
+                                    switch(op){
+                                        case 1:
+                                        //RETIRAR EFECTIVO
+                                            printf("\nIntroducir cantidad a retirar: ");
+                                            scanf("%f", &cantidad);
+                                            if(cantidad<= usuario1.saldo){
+                                                //retirar la cntidad del saldo 
+                                                printf("\nRetirada de %.2f E realizada correctamente", cantidad);
+                                                usuario1.saldo = usuario1.saldo - cantidad;
+                                                printf("\nDispone de: %.2f", usuario1.saldo);
+                                            }else
+                                                printf("\nNo dipone de la cantidad introducida");
+                                        break;
+                                        
+                                        case 2:
+                                        //INGRESAR EFECTIVO
+                                            printf("\nIntroducir la cantidad a introducir: ");
+                                            scanf("%f", &cantidad);
+                                            printf("\nIngreso de %.2f E realizado correctamente", cantidad);
+                                            usuario1.saldo = usuario1.saldo + cantidad;
+                                            printf("\nDispone de: %.2f", usuario1.saldo);
+                                        break;
+                                        
+                                        case 3:
+                                        //CONSULTAR SALDO
+                                            printf("\nDispone de: %.2f", usuario1.saldo);
+                                            break;
+                                            
+                                            
+                                    }
+                                }while(op!=6);
 							}
 							else{
 								printf("\n\tClave incorrecta. Vuelva a intentarlo.");
