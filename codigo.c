@@ -16,6 +16,7 @@ typedef struct{ // DATOS DE CLIENTES NUEVOS
 // Usar punteros permite a las funciones acceder a las estructuras sin necesidad de usar variables globales
 int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario); 
 int comprobarClave (datosCliente *cliente, datosUsuario *usuario);
+void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario);
 
 int main(){
 	int menu, op;
@@ -33,46 +34,39 @@ int main(){
 			case 1:
 				do{
 					intentosUsuario--;
-					printf("\n\n\tIntroduce tu nombre de usuario: ");
+					printf("\n\nIntroduce tu nombre de usuario: ");
 						scanf("%s", cliente1.nombre);
 					// EL USUARIO EXISTE	
 					if(comprobarUsuario(&cliente1, &usuario1) == 0){
 						do{
 							intentosClave--;
-							printf("\n\n\tIntroduce tu clave personal: ");
+							printf("\nIntroduce tu clave personal: ");
 							scanf("%s", cliente1.clave);
 							// LA CLAVE ES CORRECTA
 							if(comprobarClave(&cliente1, &usuario1) == 0){ 
-								printf("\n\n\tHola %s, bienvenido a tu area personal.", usuario1.nombre);
+								system("cls");
+								printf("\n\n\tHola %s, bienvenido a tu area personal.\n", usuario1.nombre);
 								do{
-                                    printf("\n\n\t\t1) Retirar efectivo\n\t\t2) Ingresar efectivo\n\t\t3) Consultar saldo\n\t\t4) Consultar movimientos\n\t\t5) Cambiar pin \n\t");
+                                    printf("\n\t1) Retirar efectivo\n\t2) Ingresar efectivo\n\t3) Consultar saldo\n\t4) Consultar movimientos\n\t5) Cambiar pin \n\t");
                                     scanf("%i", &op);
                                     switch(op){
                                         case 1:
                                         //RETIRAR EFECTIVO
-                                            printf("\nIntroducir cantidad a retirar: ");
-                                            scanf("%f", &cantidad);
-                                            if(cantidad<= usuario1.saldo){
-                                                //retirar la cantidad del saldo 
-                                                printf("\nRetirada de %.2f E realizada correctamente", cantidad);
-                                                usuario1.saldo = usuario1.saldo - cantidad;
-                                                printf("\nDispone de: %.2f", usuario1.saldo);
-                                            }else
-                                                printf("\nNo dipone de la cantidad introducida");
+                                            retirarEfectivo(&cliente1, &usuario1);
                                         break;
                                         
                                         case 2:
                                         //INGRESAR EFECTIVO
-                                            printf("\nIntroducir la cantidad a introducir: ");
+                                            printf("\nIntroducir la cantidad a ingresar: ");
                                             scanf("%f", &cantidad);
                                             printf("\nIngreso de %.2f E realizado correctamente", cantidad);
                                             usuario1.saldo = usuario1.saldo + cantidad;
-                                            printf("\nDispone de: %.2f", usuario1.saldo);
+                                            printf("\nDispone actualmentede: %.2f", usuario1.saldo);
                                         break;
                                         
                                         case 3:
                                         //CONSULTAR SALDO
-                                            printf("\nDispone de: %.2f", usuario1.saldo);
+                                            printf("\nDispone actualmente de: %.2f", usuario1.saldo);
                                             break;
                                             
                                             
@@ -80,15 +74,15 @@ int main(){
                                 }while(op!=6);
 							}
 							else{
-								printf("\n\tClave incorrecta. Vuelva a intentarlo.");
-								//system("cls");
+								system("cls");
+								printf("\n\tClave incorrecta. Vuelva a intentarlo.\n");
 							}
 								
 						}while(comprobarClave(&cliente1, &usuario1) != 0 && intentosClave > 0); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
 					}
 					else{
+						system("cls");
 						printf("\n\tUsuario no encontrado. Vuelva a intentarlo.\n");
-						//system("cls");
 					}
 				}while(comprobarUsuario(&cliente1, &usuario1) != 0 && intentosUsuario > 0); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
 					
@@ -113,4 +107,22 @@ int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario){
 
 int comprobarClave (datosCliente *cliente, datosUsuario *usuario){
 	return strcmp(cliente->clave, usuario->clave); // SI SON IGUALES DEVUELVE 0
+}
+
+void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario){
+	int operacion_valida = 0;
+	do{
+		printf("\nIntroducir cantidad a retirar: ");
+        scanf("%f", &cliente->cantidad);
+        if(cliente->cantidad <= usuario->saldo){
+        	operacion_valida = 1;
+        	system("cls");
+            printf("\nRetirada de %.2f E realizada correctamente.\n", cliente->cantidad);
+            usuario->saldo -= cliente->cantidad;
+            printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
+        }else{ //No hay dinero suficiente
+        	system("cls");
+            printf("\nNo dipone de la cantidad introducida. Introduzca un importe valido.\n\n");
+    	}
+	}while(operacion_valida != 1);
 }
