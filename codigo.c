@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <string.h>
 
-int comprobarUsuario (char cliente[], char usuario[]);
-int comprobarClave (char claveCliente[], char claveUsuario[]);
-
 typedef struct{ // DATOS DE CLIENTES GUARDADOS
-	char usuario[20];
+	char nombre[20];
 	char clave[20];
-	double saldo;
+	float saldo;
 }datosUsuario;
 
 typedef struct{ // DATOS DE CLIENTES NUEVOS
-	char usuario[20];
+	char nombre[20];
 	char clave[20];
+	float cantidad;
 }datosCliente;
+
+// Usar punteros permite a las funciones acceder a las estructuras sin necesidad de usar variables globales
+int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario); 
+int comprobarClave (datosCliente *cliente, datosUsuario *usuario);
 
 int main(){
 	int menu, op;
@@ -32,17 +34,16 @@ int main(){
 				do{
 					intentosUsuario--;
 					printf("\n\n\tIntroduce tu nombre de usuario: ");
-						scanf("%s", cliente1.usuario);
+						scanf("%s", cliente1.nombre);
 					// EL USUARIO EXISTE	
-					if(comprobarUsuario(usuario1.usuario, cliente1.usuario) == 0){ 
-						printf("\n\tHola %s!",usuario1.usuario);
+					if(comprobarUsuario(&cliente1, &usuario1) == 0){
 						do{
 							intentosClave--;
 							printf("\n\n\tIntroduce tu clave personal: ");
 							scanf("%s", cliente1.clave);
 							// LA CLAVE ES CORRECTA
-							if(comprobarClave(usuario1.clave, cliente1.clave) == 0){ 
-								printf("\n\tHola %s, bienvenido a tu area personal.", usuario1.usuario);
+							if(comprobarClave(&cliente1, &usuario1) == 0){ 
+								printf("\n\n\tHola %s, bienvenido a tu area personal.", usuario1.nombre);
 								do{
                                     printf("\n\n\t\t1) Retirar efectivo\n\t\t2) Ingresar efectivo\n\t\t3) Consultar saldo\n\t\t4) Consultar movimientos\n\t\t5) Cambiar pin \n\t");
                                     scanf("%i", &op);
@@ -52,7 +53,7 @@ int main(){
                                             printf("\nIntroducir cantidad a retirar: ");
                                             scanf("%f", &cantidad);
                                             if(cantidad<= usuario1.saldo){
-                                                //retirar la cntidad del saldo 
+                                                //retirar la cantidad del saldo 
                                                 printf("\nRetirada de %.2f E realizada correctamente", cantidad);
                                                 usuario1.saldo = usuario1.saldo - cantidad;
                                                 printf("\nDispone de: %.2f", usuario1.saldo);
@@ -83,13 +84,13 @@ int main(){
 								//system("cls");
 							}
 								
-						}while(comprobarClave(usuario1.clave, cliente1.clave) != 0 && intentosClave > 0); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
+						}while(comprobarClave(&cliente1, &usuario1) != 0 && intentosClave > 0); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
 					}
 					else{
-						printf("\n\tUsuario no encontrado. Vuelva a intentarlo.");
+						printf("\n\tUsuario no encontrado. Vuelva a intentarlo.\n");
 						//system("cls");
 					}
-				}while(comprobarUsuario(usuario1.usuario, cliente1.usuario) != 0 && intentosUsuario > 0); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
+				}while(comprobarUsuario(&cliente1, &usuario1) != 0 && intentosUsuario > 0); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
 					
 				
 				break;
@@ -106,11 +107,10 @@ int main(){
 	return 0;
 }
 
-int comprobarUsuario (char cliente[], char usuario[]){
-	return strcmp(cliente, usuario); // SI SON IGUALES DEVUELVE 0
-}
-int comprobarClave (char claveCliente[], char claveUsuario[]){
-	return strcmp(claveCliente, claveUsuario); // SI SON IGUALES DEVUELVE 0
+int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario){
+	return strcmp(cliente->nombre, usuario->nombre); // SI SON IGUALES DEVUELVE 0
 }
 
-
+int comprobarClave (datosCliente *cliente, datosUsuario *usuario){
+	return strcmp(cliente->clave, usuario->clave); // SI SON IGUALES DEVUELVE 0
+}
