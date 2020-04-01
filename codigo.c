@@ -5,6 +5,7 @@ typedef struct{ // DATOS DE CLIENTES GUARDADOS
 	char nombre[20];
 	char clave[20];
 	float saldo;
+	float movimientos[6];
 }datosUsuario;
 
 typedef struct{ // DATOS DE CLIENTES NUEVOS
@@ -17,6 +18,8 @@ typedef struct{ // DATOS DE CLIENTES NUEVOS
 int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario); 
 int comprobarClave (datosCliente *cliente, datosUsuario *usuario);
 void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario);
+void imprimemovimientos (datosUsuario *usuario);
+void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario);
 
 int main(){
 	int menu, op;
@@ -57,18 +60,18 @@ int main(){
                                         
                                         case 2:
                                         //INGRESAR EFECTIVO
-                                            printf("\nIntroducir la cantidad a ingresar: ");
-                                            scanf("%f", &cantidad);
-                                            printf("\nIngreso de %.2f E realizado correctamente", cantidad);
-                                            usuario1.saldo = usuario1.saldo + cantidad;
-                                            printf("\nDispone actualmentede: %.2f", usuario1.saldo);
+                                            ingresarEfectivo(&cliente1, &usuario1);
                                         break;
                                         
                                         case 3:
                                         //CONSULTAR SALDO
-                                            printf("\nDispone actualmente de: %.2f", usuario1.saldo);
+                                        	system("cls");
+                                            printf("\nDispone actualmente de: %.2fE", usuario1.saldo);
                                             break;
-                                            
+                                        case 4:
+                                        //CONSULTAR MOVIMIENTOS
+                                        	imprimemovimientos (&usuario1);
+                                            break;           
                                             
                                     }
                                 }while(op!=6);
@@ -119,10 +122,59 @@ void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario){
         	system("cls");
             printf("\nRetirada de %.2f E realizada correctamente.\n", cliente->cantidad);
             usuario->saldo -= cliente->cantidad;
+            int i;
+			usuario->movimientos[0] = -cliente->cantidad;
+            for(i=6;i>=1;i--)
+			{
+				usuario->movimientos[i] = usuario->movimientos[i-1];
+			}
+			usuario->movimientos[0] = 0;
+			
             printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
         }else{ //No hay dinero suficiente
         	system("cls");
             printf("\nNo dipone de la cantidad introducida. Introduzca un importe valido.\n\n");
     	}
 	}while(operacion_valida != 1);
+}
+
+void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario){
+	printf("\nIntroducir cantidad a ingresar: ");
+    scanf("%f", &cliente->cantidad);
+    system("cls");
+    printf("\nIngreso de %.2f E realizado correctamente.\n", cliente->cantidad);
+    usuario->saldo += cliente->cantidad;
+	int i;
+	usuario->movimientos[0] = cliente->cantidad;
+	for(i=6;i>=1;i--)
+	{
+		usuario->movimientos[i] = usuario->movimientos[i-1];
+	}
+	usuario->movimientos[0] = 0;
+	
+	printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
+}
+
+void imprimemovimientos (datosUsuario *usuario)
+{
+	int i;
+	system("cls");
+	if(usuario->movimientos[1]==0)
+ 	{
+ 		printf("\nTodavia no se han realizado movimientos en su cuenta\n");
+	}
+	else
+	printf("Sus ultimos movimientos han sido.\n");
+	for(i=1;i<6;i++)
+	{
+		if (usuario->movimientos[i]<0)
+		{
+			printf("\n%.2fE\n", usuario->movimientos[i]);
+		}
+		else if (usuario->movimientos[i]>0)
+		{
+			printf("\n+%.2fE\n", usuario->movimientos[i]);
+		}
+ 	}
+ 	
 }
