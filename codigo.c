@@ -18,8 +18,9 @@ typedef struct{ // DATOS DE CLIENTES NUEVOS
 int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario); 
 int comprobarClave (datosCliente *cliente, datosUsuario *usuario);
 void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario);
-void imprimemovimientos (datosUsuario *usuario);
+void imprimeMovimientos (datosUsuario *usuario);
 void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario);
+void cambiarClave (datosUsuario *usuario);
 
 int main(){
 	int menu, op;
@@ -50,7 +51,7 @@ int main(){
 								system("cls");
 								printf("\n\n\tHola %s, bienvenido a tu area personal.\n", usuario1.nombre);
 								do{
-                                    printf("\n\t1) Retirar efectivo\n\t2) Ingresar efectivo\n\t3) Consultar saldo\n\t4) Consultar movimientos\n\t5) Cambiar pin \n\t");
+                                    printf("\n\t1) Retirar efectivo\n\t2) Ingresar efectivo\n\t3) Consultar saldo\n\t4) Consultar movimientos\n\t5) Cambiar clave personal \n\t");
                                     scanf("%i", &op);
                                     switch(op){
                                         case 1:
@@ -70,9 +71,11 @@ int main(){
                                             break;
                                         case 4:
                                         //CONSULTAR MOVIMIENTOS
-                                        	imprimemovimientos (&usuario1);
-                                            break;           
-                                            
+                                        	imprimeMovimientos (&usuario1);
+                                            break;
+										case 5:
+										//CAMBIAR CLAVE
+											cambiarClave(&usuario1); 
                                     }
                                 }while(op!=6);
 							}
@@ -155,7 +158,7 @@ void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario){
 	printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
 }
 
-void imprimemovimientos (datosUsuario *usuario)
+void imprimeMovimientos (datosUsuario *usuario)
 {
 	int i;
 	system("cls");
@@ -176,5 +179,18 @@ void imprimemovimientos (datosUsuario *usuario)
 			printf("\n+%.2fE\n", usuario->movimientos[i]);
 		}
  	}
- 	
+}
+
+void cambiarClave (datosUsuario *usuario){
+	char clave_anterior[20], clave_nueva[20];
+	printf("\nIntroduzca su clave actual:\n");
+		scanf("%s", clave_anterior);
+	if (strcmp(clave_anterior, usuario->clave) == 0){
+		printf("Introduzca su nueva clave:\n");
+			scanf("%s", clave_nueva);
+		strcpy(usuario->clave, clave_nueva); // Cambio clave antigua por la nueva
+		printf("Su clave se ha cambiado correctamente\n");
+	}
+	else
+		printf("\nClave incorrecta.\n");
 }
