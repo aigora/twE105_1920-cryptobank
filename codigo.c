@@ -38,7 +38,7 @@ int main(){
 			case 1:
 				do{
 					intentosUsuario--;
-					printf("\n\nIntroduce tu nombre de usuario: ");
+					printf("\nIntroduce tu nombre de usuario: ");
 						scanf("%s", cliente1.nombre);
 					// EL USUARIO EXISTE	
 					if(comprobarUsuario(&cliente1, &usuario1) == 0){
@@ -49,9 +49,10 @@ int main(){
 							// LA CLAVE ES CORRECTA
 							if(comprobarClave(&cliente1, &usuario1) == 0){ 
 								system("cls");
-								printf("\n\n\tHola %s, bienvenido a tu area personal.\n", usuario1.nombre);
+								printf("\n\nHola %s, bienvenido a tu area personal.\n", usuario1.nombre);
 								do{
-                                    printf("\n\t1) Retirar efectivo\n\t2) Ingresar efectivo\n\t3) Consultar saldo\n\t4) Consultar movimientos\n\t5) Cambiar clave personal \n\t");
+                                    printf("\n\t1) Retirar efectivo\n\t2) Ingresar efectivo\n\t3) Consultar saldo\n\t4) Consultar movimientos\n\t\
+5) Cambiar clave personal \n\t6) Cerrar sesion\n\t");
                                     scanf("%i", &op);
                                     switch(op){
                                         case 1:
