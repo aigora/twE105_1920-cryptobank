@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define N 20
+
 typedef struct{ // DATOS DE CLIENTES GUARDADOS
 	char nombre[20];
 	char clave[20];
@@ -23,12 +25,28 @@ void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario);
 void cambiarClave (datosUsuario *usuario);
 
 int main(){
-	int menu, op;
+	int menu, op, j=0;
     float cantidad;
 	int salida = 0; // INDICA CUANDO DEBE TERMINAR EL PROGRAMA 
 	int intentosUsuario = 5, intentosClave = 5; // VECES QUE PUEDE EQUIVOCARSE EL USUARIO AL INTRODUCIR LOS DATOS
-	datosUsuario usuario1 = {"abel", "1234", 100}; // DECLARACION DE CLIENTE PARA REALIZAR PRUEBA DEL PROGRAMA
+	datosUsuario usuarios[N];
 	datosCliente cliente1;
+    FILE *pf; //PUNTERO PARA EL FICHERO
+    
+	pf=fopen("usuarios.txt","r"); //ABRIMOS Y LEEMOS EL FICHERO
+	if(pf==NULL)
+	{
+		printf("Error al abrir fichero.\n");
+		return -1;
+	}
+	else
+	{
+		while(fscanf(pf,"%[^;];%[^;];%f  \n", &usuarios[j].nombre, &usuarios[j].clave, &usuarios[j].saldo)!=EOF)
+		{
+			j++;
+		}
+	}
+	fclose(pf); //CERRAMOS EL FICHERO
 	
 	do{
 		printf("\n\n - Bienvenido a CryptoBank.\n\n");
@@ -40,16 +58,18 @@ int main(){
 					intentosUsuario--;
 					printf("\nIntroduce tu nombre de usuario: ");
 						scanf("%s", cliente1.nombre);
-					// EL USUARIO EXISTE	
+					// EL USUARIO EXISTE
+                    for(j=0; j<N; j++)
 					if(comprobarUsuario(&cliente1, &usuario1) == 0){
+                        system("cls");
 						do{
 							intentosClave--;
 							printf("\nIntroduce tu clave personal: ");
 							scanf("%s", cliente1.clave);
 							// LA CLAVE ES CORRECTA
-							if(comprobarClave(&cliente1, &usuario1) == 0){ 
+							if(comprobarClave(&cliente1, &usuarios[j]) == 0){ 
 								system("cls");
-								printf("\n\nHola %s, bienvenido a tu area personal.\n", usuario1.nombre);
+								printf("\n\nHola %s, bienvenido a tu area personal.\n", usuarios[j].nombre);
 								do{
                                     printf("\n\t1) Retirar efectivo\n\t2) Ingresar efectivo\n\t3) Consultar saldo\n\t4) Consultar movimientos\n\t\
 5) Cambiar clave personal \n\t6) Cerrar sesion\n\t");
@@ -57,26 +77,26 @@ int main(){
                                     switch(op){
                                         case 1:
                                         //RETIRAR EFECTIVO
-                                            retirarEfectivo(&cliente1, &usuario1);
+                                            retirarEfectivo(&cliente1, &usuarios[j]);
                                         break;
                                         
                                         case 2:
                                         //INGRESAR EFECTIVO
-                                            ingresarEfectivo(&cliente1, &usuario1);
+                                            ingresarEfectivo(&cliente1, &usuarios[j]);
                                         break;
                                         
                                         case 3:
                                         //CONSULTAR SALDO
                                         	system("cls");
-                                            printf("\nDispone actualmente de: %.2fE", usuario1.saldo);
+                                            printf("\nDispone actualmente de: %.2fE", usuarios[j].saldo);
                                             break;
                                         case 4:
                                         //CONSULTAR MOVIMIENTOS
-                                        	imprimeMovimientos (&usuario1);
+                                        	imprimeMovimientos (&usuarios[j]);
                                             break;
 										case 5:
 										//CAMBIAR CLAVE
-											cambiarClave(&usuario1); 
+											cambiarClave(&usuarios[j]); 
                                     }
                                 }while(op!=6);
 							}
@@ -85,13 +105,13 @@ int main(){
 								printf("\n\tClave incorrecta. Vuelva a intentarlo.\n");
 							}
 								
-						}while(comprobarClave(&cliente1, &usuario1) != 0 && intentosClave > 0); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
+						}while(comprobarClave(&cliente1, &usuarios[j]) != 0 && intentosClave > 0); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
 					}
 					else{
 						system("cls");
 						printf("\n\tUsuario no encontrado. Vuelva a intentarlo.\n");
 					}
-				}while(comprobarUsuario(&cliente1, &usuario1) != 0 && intentosUsuario > 0); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
+				}while(comprobarUsuario(&cliente1, &usuarios[j]) != 0 && intentosUsuario > 0); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
 					
 				
 				break;
