@@ -32,21 +32,6 @@ int main(){
 	datosUsuario usuarios[N];
 	datosCliente cliente1;
     FILE *pf; //PUNTERO PARA EL FICHERO
-    
-	pf=fopen("usuarios.txt","r"); //ABRIMOS Y LEEMOS EL FICHERO
-	if(pf==NULL)
-	{
-		printf("Error al abrir fichero.\n");
-		return -1;
-	}
-	else
-	{
-		while(fscanf(pf,"%[^;];%[^;];%f  \n", &usuarios[j].nombre, &usuarios[j].clave, &usuarios[j].saldo)!=EOF)
-		{
-			j++;
-		}
-	}
-	fclose(pf); //CERRAMOS EL FICHERO
 	
 	do{
 		printf("\n\n - Bienvenido a CryptoBank.\n\n");
@@ -54,13 +39,28 @@ int main(){
 			scanf("%i", &menu);
 		switch(menu){
 			case 1:
+                pf=fopen("usuarios.txt","r"); //ABRIMOS Y LEEMOS EL FICHERO
+                if(pf==NULL)
+                {
+                    printf("Error al abrir fichero.\n");
+                    return -1;
+                }
+                else
+                {
+                    while(fscanf(pf,"%[^;];%[^;];%f  \n", &usuarios[j].nombre, &usuarios[j].clave, &usuarios[j].saldo)!=EOF)
+                    {
+                        j++;
+                    }
+                }
+                fclose(pf); //CERRAMOS EL FICHERO
+                
 				do{
 					intentosUsuario--;
 					printf("\nIntroduce tu nombre de usuario: ");
 						scanf("%s", cliente1.nombre);
 					// EL USUARIO EXISTE
                     for(j=0; j<N; j++)
-					if(comprobarUsuario(&cliente1, &usuario1) == 0){
+					if(comprobarUsuario(&cliente1, &usuarios[j]) == 0){
                         system("cls");
 						do{
 							intentosClave--;
@@ -113,11 +113,29 @@ int main(){
 					}
 				}while(comprobarUsuario(&cliente1, &usuarios[j]) != 0 && intentosUsuario > 0); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
 					
-				
 				break;
+                
 			case 2:
+                printf("\nNombre: ");
+                scanf("%s", cliente1.nombre);
+                printf("\nClave: ");
+                scanf("%s", cliente1.clave);
+                printf("\nSaldo: ");
+                scanf("%f", &cliente1.cantidad);
+                pf=fopen("usuarios.txt","a"); //ABRIMOS Y ESCRIBIMOS EL FICHERO
+                if(pf==NULL)
+                {
+                    printf("Error al abrir fichero.\n");
+                    return -1;
+                }
+                else
+                {
+                    fprintf(pf,"%s;%s;%.2f  \n", cliente1.nombre, cliente1.clave, cliente1.cantidad);
+                }
+                fclose(pf); //CERRAMOS EL FICHERO
 				break;
 			case 3:
+            
 				salida = 1; // EL USUARIO DESEA SALIR
 				break;
 			default:
