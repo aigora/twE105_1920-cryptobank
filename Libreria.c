@@ -1,16 +1,20 @@
 #include "Libreria.h"
 
-int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario){
+int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario)
+{
 	return strcmp(cliente->nombre, usuario->nombre); // SI SON IGUALES DEVUELVE 0
 }
 
-int comprobarClave (datosCliente *cliente, datosUsuario *usuario){
+int comprobarClave (datosCliente *cliente, datosUsuario *usuario)
+{
 	return strcmp(cliente->clave, usuario->clave); // SI SON IGUALES DEVUELVE 0
 }
 
-int crearUsuario (datosCliente *cliente, FILE *pf){
+int crearUsuario (datosCliente *cliente, FILE *pf)
+{
     pf=fopen("usuarios.txt","a"); //ABRIMOS Y ESCRIBIMOS EL FICHERO
-    if(pf==NULL){
+    if(pf==NULL)
+	{
         printf("Error al abrir fichero.\n");
         return -1;
     }
@@ -20,9 +24,11 @@ int crearUsuario (datosCliente *cliente, FILE *pf){
     return 1;
 }
 
-int actualizarFile1 (datosUsuario *usuario, FILE *pf){
+int actualizarFile1 (datosUsuario *usuario, FILE *pf)
+{
 	pf = fopen("usuarios.txt","w"); // PRIMERO SOBRESCRIBIMOS EL FILE
-	if(pf==NULL){
+	if(pf==NULL)
+	{
 		printf("\nError al abrir el fichero.");
 		return -1;
 	}
@@ -31,9 +37,11 @@ int actualizarFile1 (datosUsuario *usuario, FILE *pf){
 	fclose(pf);	
 }
 
-int actualizarFile2 (datosUsuario *usuario, FILE *pf){
-	pf = fopen("usuarios.txt","a"); // AÑADIMOS 
-	if(pf==NULL){
+int actualizarFile2 (datosUsuario *usuario, FILE *pf)
+{
+	pf = fopen("usuarios.txt","a"); // AÃ‘ADIMOS 
+	if(pf==NULL)
+	{
 		printf("\nError al abrir el fichero.");
 		return -1;
 	}
@@ -42,12 +50,15 @@ int actualizarFile2 (datosUsuario *usuario, FILE *pf){
 	fclose(pf);
 }
 
-void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario){
+void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario)
+{
 	int operacion_valida = 0;
-	do{
+	do
+	{
 		printf("\nIntroducir cantidad a retirar: ");
         scanf("%f", &cliente->cantidad);
-        if(cliente->cantidad <= usuario->saldo){
+        if(cliente->cantidad <= usuario->saldo)
+		{
         	operacion_valida = 1;
         	system("cls");
             printf("\nRetirada de %.2f E realizada correctamente.\n", cliente->cantidad);
@@ -61,20 +72,23 @@ void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario){
 			usuario->movimientos[0] = 0;
 			
             printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
-        }else{ //No hay dinero suficiente
+        }
+		else
+		{ //No hay dinero suficiente
         	system("cls");
             printf("\nNo dipone de la cantidad introducida. Introduzca un importe valido.\n\n");
     	}
 	}while(operacion_valida != 1);
 }
 
-void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario){
+void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
+{
+	int i;
 	printf("\nIntroducir cantidad a ingresar: ");
     scanf("%f", &cliente->cantidad);
     system("cls");
     printf("\nIngreso de %.2f E realizado correctamente.\n", cliente->cantidad);
     usuario->saldo += cliente->cantidad;
-	int i;
 	usuario->movimientos[0] = cliente->cantidad;
 	for(i=6;i>=1;i--)
 	{
@@ -108,11 +122,13 @@ void imprimeMovimientos (datosUsuario *usuario)
  	}
 }
 
-void cambiarClave (datosUsuario *usuario){
+void cambiarClave (datosUsuario *usuario)
+{
 	char clave_anterior[20], clave_nueva[20];
 	printf("\nIntroduzca su clave actual:\n");
 		scanf("%s", clave_anterior);
-	if (strcmp(clave_anterior, usuario->clave) == 0){
+	if (strcmp(clave_anterior, usuario->clave) == 0)
+	{
 		printf("Introduzca su nueva clave:\n");
 			scanf("%s", clave_nueva);
 		strcpy(usuario->clave, clave_nueva); // Cambio clave antigua por la nueva
