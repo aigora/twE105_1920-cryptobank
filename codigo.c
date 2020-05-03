@@ -13,12 +13,12 @@ int main()
 	
 	pf=fopen("usuarios.txt","r"); //ABRIMOS Y ALMACENAMOS LOS DATOS EN VECTORES DE ESTRUCTURAS PARA MANIPULARLOS
         if(pf==NULL)
-		{
+	{
             printf("Error al abrir fichero.\n");
             return -1;
         }
         else
-		{
+	{
             while(fscanf(pf,"%[^;];%[^;];%f\n", &usuarios[j].nombre, &usuarios[j].clave, &usuarios[j].saldo)!=EOF)
                 j++; // j al final del while es la cantidad de usuarios registrados
         }
@@ -38,45 +38,46 @@ int main()
 					printf("\nIntroduce tu nombre de usuario: ");
 						scanf("%s", cliente1.nombre);
 					// EL USUARIO EXISTE
-                    for(i=0; i<N; i++)
-					if(comprobarUsuario(&cliente1, &usuarios[i]) == 0)
-					{
-                        system("cls");
-						do
+                    			for(i=0; i<N; i++)
+						if(comprobarUsuario(&cliente1, &usuarios[i]) == 0)
 						{
-							intentosClave--;
-							printf("\nIntroduce tu clave personal: ");
-							scanf("%s", cliente1.clave);
-							// LA CLAVE ES CORRECTA
-							if(comprobarClave(&cliente1, &usuarios[i]) == 0){ 
-								system("cls");
-								printf("\n\nHola %s, bienvenido a tu area personal.\n", usuarios[i].nombre);
-								do
-								{
-                                    printf("\n\t1) Retirar efectivo\n\t2) Ingresar efectivo\n\t3) Consultar saldo\n\t4) Consultar movimientos\n\t\
-5) Cambiar clave personal \n\t6) Cerrar sesion\n\t");
-                                    scanf("%i", &op);
-                                    switch(op)
+                        				system("cls");
+							do
+							{
+								intentosClave--;
+								printf("\nIntroduce tu clave personal: ");
+								scanf("%s", cliente1.clave);
+								// LA CLAVE ES CORRECTA
+								if(comprobarClave(&cliente1, &usuarios[i]) == 0)
+								{ 
+									system("cls");
+									printf("\n\nHola %s, bienvenido a tu area personal.\n", usuarios[i].nombre);
+									do
 									{
-                                        case 1:
-                                        //RETIRAR EFECTIVO
-                                            retirarEfectivo(&cliente1, &usuarios[i]);
-                                        	break;
-                                        
-                                        case 2:
-                                        //INGRESAR EFECTIVO
-                                            ingresarEfectivo(&cliente1, &usuarios[i]);
-                                        	break;
-                                        
-                                        case 3:
-                                        //CONSULTAR SALDO
-                                        	system("cls");
-                                            printf("\nDispone actualmente de: %.2fE", usuarios[i].saldo);
-                                            break;
-                                        case 4:
-                                        //CONSULTAR MOVIMIENTOS
-                                        	imprimeMovimientos (&usuarios[i]);
-                                            break;
+                                    						printf("\n\t1) Retirar efectivo\n\t2) Ingresar efectivo\n\t3) Consultar saldo\n\t4) Consultar movimientos\n\t\
+5) Cambiar clave personal \n\t6) Cerrar sesion\n\t");
+                                    							scanf("%i", &op);
+										switch(op)
+										{
+										case 1:
+										//RETIRAR EFECTIVO
+										    retirarEfectivo(&cliente1, &usuarios[i]);
+											break;
+
+										case 2:
+										//INGRESAR EFECTIVO
+										    ingresarEfectivo(&cliente1, &usuarios[i]);
+											break;
+
+										case 3:
+										//CONSULTAR SALDO
+											system("cls");
+										    printf("\nDispone actualmente de: %.2fE", usuarios[i].saldo);
+										    break;
+										case 4:
+										//CONSULTAR MOVIMIENTOS
+											imprimeMovimientos (&usuarios[i]);
+										    break;
 										case 5:
 										//CAMBIAR CLAVE
 											cambiarClave(&usuarios[i]);
@@ -86,35 +87,34 @@ int main()
 											break;
 										default:
 											printf("Opcion incorrecta");
-                                    }
-                                }while(op!=6);
-							}
-							else
-							{
-								system("cls");
-								printf("\n\tClave incorrecta. Vuelva a intentarlo.\n");
-							}
-								
-						}while(comprobarClave(&cliente1, &usuarios[i]) != 0 && intentosClave > 0 && op != 6); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
-					}
-					else if(op != 6)
-					{
-						system("cls");
-						printf("\n\tUsuario no encontrado. Vuelva a intentarlo.\n");
-					}
+										}
+									}while(op!=6);
+								}
+								else
+								{
+									system("cls");
+									printf("\n\tClave incorrecta. Vuelva a intentarlo.\n");
+								}
+							}while(comprobarClave(&cliente1, &usuarios[i]) != 0 && intentosClave > 0 && op != 6); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
+						}
+						else if(op != 6)
+						{
+							system("cls");
+							printf("\n\tUsuario no encontrado. Vuelva a intentarlo.\n");
+						}
 				}while(comprobarUsuario(&cliente1, &usuarios[i]) != 0 && intentosUsuario > 0 && op != 6); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
 				break;
                 
 			case 2:
-                printf("\nNombre: ");
-                scanf("%s", cliente1.nombre);
-                printf("\nClave: ");
-                scanf("%s", cliente1.clave);
-                cliente1.cantidad = 0; // LAS CUENTAS EMPIEZAN A CERO
-                if(crearUsuario(&cliente1, pf) == 1)
+				printf("\nNombre: ");
+				scanf("%s", cliente1.nombre);
+				printf("\nClave: ");
+				scanf("%s", cliente1.clave);
+				cliente1.cantidad = 0; // LAS CUENTAS EMPIEZAN A CERO
+				if(crearUsuario(&cliente1, pf) == 1)
 				{
-                	printf("\nTe has registrado correctamente. Reinicia el programa para que se hagan efectivos los cambios.");
-                	j++; // UN USUARIO MAS
+					printf("\nTe has registrado correctamente. Reinicia el programa para que se hagan efectivos los cambios.");
+					j++; // UN USUARIO MAS
 				}
                 else
                 	printf("\nHa habido un problema en su registro. Vuelva a intentarlo.");
