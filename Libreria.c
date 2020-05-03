@@ -8,6 +8,40 @@ int comprobarClave (datosCliente *cliente, datosUsuario *usuario){
 	return strcmp(cliente->clave, usuario->clave); // SI SON IGUALES DEVUELVE 0
 }
 
+int crearUsuario (datosCliente *cliente, FILE *pf){
+    pf=fopen("usuarios.txt","a"); //ABRIMOS Y ESCRIBIMOS EL FICHERO
+    if(pf==NULL){
+        printf("Error al abrir fichero.\n");
+        return -1;
+    }
+    else
+        fprintf(pf,"%s;%s;%.2f\n", cliente->nombre, cliente->clave, cliente->cantidad);
+    fclose(pf);
+    return 1;
+}
+
+int actualizarFile1 (datosUsuario *usuario, FILE *pf){
+	pf = fopen("usuarios.txt","w"); // PRIMERO SOBRESCRIBIMOS EL FILE
+	if(pf==NULL){
+		printf("\nError al abrir el fichero.");
+		return -1;
+	}
+	else
+		fprintf(pf,"%s;%s;%.2f\n", usuario->nombre, usuario->clave, usuario->saldo);
+	fclose(pf);	
+}
+
+int actualizarFile2 (datosUsuario *usuario, FILE *pf){
+	pf = fopen("usuarios.txt","a"); // AÑADIMOS 
+	if(pf==NULL){
+		printf("\nError al abrir el fichero.");
+		return -1;
+	}
+	else
+		fprintf(pf,"%s;%s;%.2f\n", usuario->nombre, usuario->clave, usuario->saldo);
+	fclose(pf);
+}
+
 void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario){
 	int operacion_valida = 0;
 	do{
