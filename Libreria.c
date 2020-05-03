@@ -14,7 +14,7 @@ int crearUsuario (datosCliente *cliente, FILE *pf)
 {
     pf=fopen("usuarios.txt","a"); //ABRIMOS Y ESCRIBIMOS EL FICHERO
     if(pf==NULL)
-	{
+    {
         printf("Error al abrir fichero.\n");
         return -1;
     }
@@ -52,32 +52,30 @@ int actualizarFile2 (datosUsuario *usuario, FILE *pf)
 
 void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 {
-	int operacion_valida = 0;
+	int i, operacion_valida = 0;
 	do
 	{
 		printf("\nIntroducir cantidad a retirar: ");
-        scanf("%f", &cliente->cantidad);
-        if(cliente->cantidad <= usuario->saldo)
+        		scanf("%f", &cliente->cantidad);
+        	if(cliente->cantidad <= usuario->saldo)
 		{
-        	operacion_valida = 1;
-        	system("cls");
-            printf("\nRetirada de %.2f E realizada correctamente.\n", cliente->cantidad);
-            usuario->saldo -= cliente->cantidad;
-            int i;
+        		operacion_valida = 1;
+        		system("cls");
+            		printf("\nRetirada de %.2f E realizada correctamente.\n", cliente->cantidad);
+            		usuario->saldo -= cliente->cantidad;
 			usuario->movimientos[0] = -cliente->cantidad;
-            for(i=6;i>=1;i--)
+            		for(i=6;i>=1;i--)
 			{
 				usuario->movimientos[i] = usuario->movimientos[i-1];
 			}
 			usuario->movimientos[0] = 0;
-			
-            printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
-        }
+            		printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
+        	}
 		else
 		{ //No hay dinero suficiente
-        	system("cls");
-            printf("\nNo dipone de la cantidad introducida. Introduzca un importe valido.\n\n");
-    	}
+        		system("cls");
+        		printf("\nNo dipone de la cantidad introducida. Introduzca un importe valido.\n\n");
+    		}
 	}while(operacion_valida != 1);
 }
 
@@ -85,17 +83,16 @@ void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 {
 	int i;
 	printf("\nIntroducir cantidad a ingresar: ");
-    scanf("%f", &cliente->cantidad);
-    system("cls");
-    printf("\nIngreso de %.2f E realizado correctamente.\n", cliente->cantidad);
-    usuario->saldo += cliente->cantidad;
+    		scanf("%f", &cliente->cantidad);
+    	system("cls");
+    	printf("\nIngreso de %.2f E realizado correctamente.\n", cliente->cantidad);
+    	usuario->saldo += cliente->cantidad;
 	usuario->movimientos[0] = cliente->cantidad;
 	for(i=6;i>=1;i--)
 	{
 		usuario->movimientos[i] = usuario->movimientos[i-1];
 	}
 	usuario->movimientos[0] = 0;
-	
 	printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
 }
 
@@ -108,7 +105,7 @@ void imprimeMovimientos (datosUsuario *usuario)
  		printf("\nTodavia no se han realizado movimientos en su cuenta\n");
 	}
 	else
-	printf("Sus ultimos movimientos han sido.\n");
+		printf("Sus ultimos movimientos han sido.\n");
 	for(i=1;i<6;i++)
 	{
 		if (usuario->movimientos[i]<0)
