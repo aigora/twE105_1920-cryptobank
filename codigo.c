@@ -73,7 +73,10 @@ int main(){
                                             break;
 										case 5:
 										//CAMBIAR CLAVE
-											cambiarClave(&usuarios[j]); 
+											cambiarClave(&usuarios[j]);
+										case 6:
+										//CERRAR SESION
+											break;
                                     }
                                 }while(op!=6);
 							}
@@ -84,11 +87,11 @@ int main(){
 								
 						}while(comprobarClave(&cliente1, &usuarios[j]) != 0 && intentosClave > 0); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
 					}
-					else{
+					else if(op != 6){
 						system("cls");
 						printf("\n\tUsuario no encontrado. Vuelva a intentarlo.\n");
 					}
-				}while(comprobarUsuario(&cliente1, &usuarios[j]) != 0 && intentosUsuario > 0); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
+				}while(comprobarUsuario(&cliente1, &usuarios[j]) != 0 && intentosUsuario > 0 && op != 6); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
 					
 				break;
                 
