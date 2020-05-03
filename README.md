@@ -16,5 +16,4 @@ Con este simulador pretendemos facilitar las operaciones de banca que nuestros c
 2. Ingresar efectivo: al elegir esta opcion nos preguntará la cantidad de efectivo que queremos ingresar. Tras esto se modificará el saldo del cliente.  
 3. Consultar el saldo: Si elegimos esta opción nos mostrará el saldo actual de nuestra cuenta.  
 4. Consultar movimientos: si elegimos esta opcion nos mostrará los untimos movimiento de retirada e ingreso de efectivo.  
-5. Cambio de pin: Si queremos cambiar nuestro pin, debemos introducir el pin actual (tendremos 3 intentos), si no acierta el pin el programa finalizará. Si acertamos el número (4 dígitos) debemos introducir el nuevo pin que deseamos tener.  
-6. Compra y venta de criptodivisas.  
+5. Cambio de pin: Si queremos cambiar nuestro pin, debemos introducir el pin actual (tendremos 3 intentos), si no acierta el pin el programa finalizará. Si acertamos el número (4 dígitos) debemos introducir el nuevo pin que deseamos tener.
