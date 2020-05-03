@@ -76,6 +76,7 @@ int main(){
 											cambiarClave(&usuarios[j]);
 										case 6:
 										//CERRAR SESION
+											system("cls");
 											break;
                                     }
                                 }while(op!=6);
