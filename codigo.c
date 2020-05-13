@@ -13,15 +13,15 @@ int main()
 	
 	pf=fopen("usuarios.txt","r"); //ABRIMOS Y ALMACENAMOS LOS DATOS EN VECTORES DE ESTRUCTURAS PARA MANIPULARLOS
         if(pf==NULL)
-	{
+		{
             printf("Error al abrir fichero.\n");
             return -1;
         }
         else
-	{
+		{
             while(fscanf(pf,"%[^;];%[^;];%f\n", &usuarios[j].nombre, &usuarios[j].clave, &usuarios[j].saldo)!=EOF)
                 j++; // j al final del while es la cantidad de usuarios registrados
-        }
+    	}
         fclose(pf); //CERRAMOS EL FICHERO
 	
 	do
