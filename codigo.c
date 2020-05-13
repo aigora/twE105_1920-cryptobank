@@ -111,13 +111,9 @@ int main()
 				printf("\nClave: ");
 				scanf("%s", cliente1.clave);
 				cliente1.cantidad = 0; // LAS CUENTAS EMPIEZAN A CERO
-				if(crearUsuario(&cliente1, pf) == 1)
-				{
-					printf("\nTe has registrado correctamente. Reinicia el programa para que se hagan efectivos los cambios.");
-					j++; // UN USUARIO MAS
-				}
-                else
-                	printf("\nHa habido un problema en su registro. Vuelva a intentarlo.");
+				crearUsuario(&cliente1, &usuarios[j], pf);
+					j++;
+				printf("\nTe has registrado correctamente. Reinicia el programa para que se hagan efectivos los cambios.");
 				break;
 				
 			case 3:

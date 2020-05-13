@@ -10,18 +10,11 @@ int comprobarClave (datosCliente *cliente, datosUsuario *usuario)
 	return strcmp(cliente->clave, usuario->clave); // SI SON IGUALES DEVUELVE 0
 }
 
-int crearUsuario (datosCliente *cliente, FILE *pf)
+void crearUsuario (datosCliente *cliente, datosUsuario *usuario, FILE *pf)
 {
-    pf=fopen("usuarios.txt","a"); //ABRIMOS Y ESCRIBIMOS EL FICHERO
-    if(pf==NULL)
-    {
-        printf("Error al abrir fichero.\n");
-        return -1;
-    }
-    else
-        fprintf(pf,"%s;%s;%.2f\n", cliente->nombre, cliente->clave, cliente->cantidad);
-    fclose(pf);
-    return 1;
+    strcpy(usuario->nombre,cliente->nombre);
+    strcpy(usuario->clave,cliente->clave);
+    usuario->saldo = cliente->cantidad;
 }
 
 int actualizarFile1 (datosUsuario *usuario, FILE *pf)
