@@ -15,11 +15,26 @@ void crearUsuario (datosCliente *cliente, datosUsuario *usuario, FILE *pf)
     strcpy(usuario->nombre,cliente->nombre);
     strcpy(usuario->clave,cliente->clave);
     usuario->saldo = cliente->cantidad;
+    FILE *pf2;
+	//char ruta = "Files/Movimientos/";
+	char ruta[] = "Files/Movimientos/";
+	char nombre_usuario[20];
+	strcpy(nombre_usuario,cliente->nombre);
+	strcat(ruta, nombre_usuario);
+	strcat(ruta, ".txt");
+	
+	pf2 = fopen(ruta,"w");
+	if(pf2==NULL)
+	{
+        printf("Error al abrir fichero.\n");
+    }
+    
+    fclose(pf);
 }
 
 int actualizarFile1 (datosUsuario *usuario, FILE *pf)
 {
-	pf = fopen("usuarios.txt","w"); // PRIMERO SOBRESCRIBIMOS EL FILE
+	pf = fopen("c:Files/usuarios.txt","w"); // PRIMERO SOBRESCRIBIMOS EL FILE
 	if(pf==NULL)
 	{
 		printf("\nError al abrir el fichero.");
@@ -32,7 +47,7 @@ int actualizarFile1 (datosUsuario *usuario, FILE *pf)
 
 int actualizarFile2 (datosUsuario *usuario, FILE *pf)
 {
-	pf = fopen("usuarios.txt","a"); // AÑADIMOS 
+	pf = fopen("c:Files/usuarios.txt","a"); // AÑADIMOS 
 	if(pf==NULL)
 	{
 		printf("\nError al abrir el fichero.");
