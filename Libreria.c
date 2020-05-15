@@ -1,5 +1,21 @@
 #include "Libreria.h"
 
+void fechayhora(datosMovimientos *movimientos)
+{
+	time_t t;
+	struct tm *tm;
+	char fecha[10], hora[5],fechayhora[16];
+
+	t = time(NULL);
+	tm = localtime(&t);
+	strftime(fecha, 11, "%d/%m/%Y", tm);
+	strftime(hora, 6, "%H:%M", tm);
+	strcat(fechayhora, fecha);
+	strcat(fechayhora, " ");
+	strcat(fechayhora, hora);
+	strcpy(movimientos->fechayhora,fechayhora);
+}
+
 int comprobarUsuario (datosCliente *cliente, datosUsuario *usuario)
 {
 	return strcmp(cliente->nombre, usuario->nombre); // SI SON IGUALES DEVUELVE 0
@@ -16,7 +32,6 @@ void crearUsuario (datosCliente *cliente, datosUsuario *usuario, FILE *pf)
     strcpy(usuario->clave,cliente->clave);
     usuario->saldo = cliente->cantidad;
     FILE *pf2;
-	//char ruta = "Files/Movimientos/";
 	char ruta[] = "Files/Movimientos/";
 	char nombre_usuario[20];
 	strcpy(nombre_usuario,cliente->nombre);
@@ -71,13 +86,26 @@ void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario)
         		system("cls");
             		printf("\nRetirada de %.2f E realizada correctamente.\n", cliente->cantidad);
             		usuario->saldo -= cliente->cantidad;
-			usuario->movimientos[0] = -cliente->cantidad;
-            		for(i=6;i>=1;i--)
-			{
-				usuario->movimientos[i] = usuario->movimientos[i-1];
-			}
-			usuario->movimientos[0] = 0;
+					usuario->movimientos->cantidad = -cliente->cantidad;
             		printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
+            		
+            		fechayhora(&usuario->movimientos);
+            		FILE *pf;
+					char ruta[] = "Files/Movimientos/";
+					char nombre_usuario[20];
+					strcpy(nombre_usuario,usuario->nombre);
+					strcat(ruta, nombre_usuario);
+					strcat(ruta, ".txt");
+					pf = fopen(ruta,"a");
+					if(pf==NULL)
+					{
+						printf("Error al abrir fichero.\n");
+    				}
+    				else
+    				{
+    					fprintf(pf,"%s;%.2f\n",usuario->movimientos->fechayhora,usuario->movimientos->cantidad);
+					}
+   					 fclose(pf);
         	}
 		else
 		{ //No hay dinero suficiente
@@ -91,40 +119,34 @@ void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 {
 	int i;
 	printf("\nIntroducir cantidad a ingresar: ");
-    		scanf("%f", &cliente->cantidad);
+    	scanf("%f", &cliente->cantidad);
     	system("cls");
     	printf("\nIngreso de %.2f E realizado correctamente.\n", cliente->cantidad);
     	usuario->saldo += cliente->cantidad;
-	usuario->movimientos[0] = cliente->cantidad;
-	for(i=6;i>=1;i--)
-	{
-		usuario->movimientos[i] = usuario->movimientos[i-1];
-	}
-	usuario->movimientos[0] = 0;
-	printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
+		usuario->movimientos->cantidad = cliente->cantidad;
+		printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
+		
+		fechayhora(&usuario->movimientos);
+		FILE *pf;
+		char ruta[] = "Files/Movimientos/";
+		char nombre_usuario[20];
+		strcpy(nombre_usuario,usuario->nombre);
+		strcat(ruta, nombre_usuario);
+		strcat(ruta, ".txt");
+		pf = fopen(ruta,"a");
+		if(pf==NULL)
+		{
+			printf("Error al abrir fichero.\n");
+    	}
+    	else
+    	{
+    		fprintf(pf,"%s;%.2f\n",usuario->movimientos->fechayhora,usuario->movimientos->cantidad);
+		}
+   		fclose(pf);
 }
 
 void imprimeMovimientos (datosUsuario *usuario)
 {
-	int i;
-	system("cls");
-	if(usuario->movimientos[1]==0)
- 	{
- 		printf("\nTodavia no se han realizado movimientos en su cuenta\n");
-	}
-	else
-		printf("Sus ultimos movimientos han sido.\n");
-	for(i=1;i<6;i++)
-	{
-		if (usuario->movimientos[i]<0)
-		{
-			printf("\n%.2fE\n", usuario->movimientos[i]);
-		}
-		else if (usuario->movimientos[i]>0)
-		{
-			printf("\n+%.2fE\n", usuario->movimientos[i]);
-		}
- 	}
 }
 
 void cambiarClave (datosUsuario *usuario)
@@ -142,3 +164,5 @@ void cambiarClave (datosUsuario *usuario)
 	else
 		printf("\nClave incorrecta.\n");
 }
+
+
