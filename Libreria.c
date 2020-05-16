@@ -147,6 +147,29 @@ void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 
 void imprimeMovimientos (datosUsuario *usuario)
 {
+	FILE *pf;
+	char ruta[] = "Files/Movimientos/";
+	char nombre_usuario[20];
+	strcpy(nombre_usuario,usuario->nombre);
+	strcat(ruta, nombre_usuario);
+	strcat(ruta, ".txt");
+	pf = fopen(ruta,"r");
+	if (pf == NULL)
+	{
+	printf("Error al abrir el fichero.\n");
+	return -1;
+	}
+	else 
+	{
+		system("cls");
+		printf("Sus ultimos movimientos han sido:\n");
+    	while (fscanf(pf, "%c;%f", &usuario->movimientos->fechayhora,&usuario->movimientos->cantidad) != EOF)
+		{
+			printf("%s", usuario->movimientos->fechayhora);
+		}
+    fclose(pf);
+    }
+	return 0;
 }
 
 void cambiarClave (datosUsuario *usuario)
