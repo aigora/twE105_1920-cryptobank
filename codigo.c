@@ -72,10 +72,11 @@ int main()
 										case 3:
 										//CONSULTAR SALDO
 											system("cls");
-										    printf("\nDispone actualmente de: %.2fE", usuarios[i].saldo);
+										    printf("\nDispone actualmente de: %.2fE\n", usuarios[i].saldo);
 										    break;
 										case 4:
 										//CONSULTAR MOVIMIENTOS
+											printf("FECHA;HORA;CANTIDAD;SALDO");
 											imprimeMovimientos (&usuarios[i]);
 										    break;
 										case 5:

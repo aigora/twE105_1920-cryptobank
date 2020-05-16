@@ -4,14 +4,13 @@ void fechayhora(datosMovimientos *movimientos)
 {
 	time_t t;
 	struct tm *tm;
-	char fecha[10], hora[5],fechayhora[16];
-
+	char fecha[10] = {0}, hora[5] = {0}, fechayhora[16] = {0};
 	t = time(NULL);
 	tm = localtime(&t);
 	strftime(fecha, 11, "%d/%m/%Y", tm);
 	strftime(hora, 6, "%H:%M", tm);
 	strcat(fechayhora, fecha);
-	strcat(fechayhora, " ");
+	strcat(fechayhora, ";");
 	strcat(fechayhora, hora);
 	strcpy(movimientos->fechayhora,fechayhora);
 }
@@ -89,7 +88,7 @@ void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 					usuario->movimientos->cantidad = -cliente->cantidad;
             		printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
             		
-            		fechayhora(&usuario->movimientos);
+            		fechayhora(usuario->movimientos);
             		FILE *pf;
 					char ruta[] = "Files/Movimientos/";
 					char nombre_usuario[20];
@@ -103,7 +102,7 @@ void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario)
     				}
     				else
     				{
-    					fprintf(pf,"%s;%.2f\n",usuario->movimientos->fechayhora,usuario->movimientos->cantidad);
+    					fprintf(pf,"%s;%.2f;%.2f\n", usuario->movimientos->fechayhora, usuario->movimientos->cantidad, usuario->saldo);
 					}
    					 fclose(pf);
         	}
@@ -126,7 +125,7 @@ void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 		usuario->movimientos->cantidad = cliente->cantidad;
 		printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
 		
-		fechayhora(&usuario->movimientos);
+		fechayhora(usuario->movimientos);
 		FILE *pf;
 		char ruta[] = "Files/Movimientos/";
 		char nombre_usuario[20];
@@ -140,35 +139,34 @@ void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
     	}
     	else
     	{
-    		fprintf(pf,"%s;%.2f\n",usuario->movimientos->fechayhora,usuario->movimientos->cantidad);
+    		fprintf(pf,"%s;%.2f;%.2f\n", usuario->movimientos->fechayhora, usuario->movimientos->cantidad, usuario->saldo);
 		}
    		fclose(pf);
 }
 
-void imprimeMovimientos (datosUsuario *usuario)
+int imprimeMovimientos (datosUsuario *usuario)
 {
 	FILE *pf;
+	char linea[40];
 	char ruta[] = "Files/Movimientos/";
 	char nombre_usuario[20];
 	strcpy(nombre_usuario,usuario->nombre);
 	strcat(ruta, nombre_usuario);
 	strcat(ruta, ".txt");
-	pf = fopen(ruta,"r");
+	pf = fopen(ruta, "r");
 	if (pf == NULL)
 	{
-	printf("Error al abrir el fichero.\n");
-	return -1;
+		printf("Error al abrir el fichero.\n");
+		return -1;
 	}
 	else 
 	{
 		system("cls");
-		printf("Sus ultimos movimientos han sido:\n");
-    	while (fscanf(pf, "%c;%f", &usuario->movimientos->fechayhora,&usuario->movimientos->cantidad) != EOF)
-		{
-			printf("%s", usuario->movimientos->fechayhora);
-		}
-    fclose(pf);
+		printf("FECHA;HORA;CANTIDAD;SALDO\n\n");
+    	while (fgets(linea, 40, (FILE*) pf))
+			printf("%s\n", linea);	
     }
+    fclose(pf);
 	return 0;
 }
 
