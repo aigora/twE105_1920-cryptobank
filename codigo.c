@@ -87,6 +87,7 @@ int main()
 											system("cls");
 											break;
 										default:
+											system("cls");
 											printf("Opcion incorrecta");
 										}
 									}while(op!=6);
@@ -113,7 +114,8 @@ int main()
 				scanf("%s", cliente1.clave);
 				cliente1.cantidad = 0; // LAS CUENTAS EMPIEZAN A CERO
 				crearUsuario(&cliente1, &usuarios[j], pf);
-					j++;
+				j++;
+				system("cls");
 				printf("\nTe has registrado correctamente. Reinicia el programa para que se hagan efectivos los cambios.");
 				break;
 				
