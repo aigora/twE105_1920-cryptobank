@@ -72,58 +72,64 @@ int actualizarFile2 (datosUsuario *usuario, FILE *pf)
 	fclose(pf);
 }
 
-void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario)
+int retirarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 {
 	int i, operacion_valida = 0;
 	do
 	{
-		printf("\nIntroducir cantidad a retirar: ");
-        		scanf("%f", &cliente->cantidad);
-        	if(cliente->cantidad <= usuario->saldo)
+		printf("\n\tIntroducir cantidad a retirar: ");
+        scanf("%f", &cliente->cantidad);
+        if(cliente->cantidad <= usuario->saldo)
 		{
-        		operacion_valida = 1;
-        		system("cls");
-            		printf("\nRetirada de %.2f E realizada correctamente.\n", cliente->cantidad);
-            		usuario->saldo -= cliente->cantidad;
-					usuario->movimientos->cantidad = -cliente->cantidad;
-            		printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
+        	operacion_valida = 1;
+        	system("cls");
+            printf("\n\tRetirada de %.2f E realizada correctamente.\n", cliente->cantidad);
+            usuario->saldo -= cliente->cantidad;
+			usuario->movimientos->cantidad = -cliente->cantidad;
+            printf("\n\tDispone actualmente de: %.2f E.\n", usuario->saldo);
+            printf("\n\n\tPulse cualquier tecla para continuar. ");
+			getch();
+			system("cls");
             		
-            		fechayhora(usuario->movimientos);
-            		FILE *pf;
-					char ruta[] = "Files/Movimientos/";
-					char nombre_usuario[20];
-					strcpy(nombre_usuario,usuario->nombre);
-					strcat(ruta, nombre_usuario);
-					strcat(ruta, ".txt");
-					pf = fopen(ruta,"a");
-					if(pf==NULL)
-					{
-						printf("Error al abrir fichero.\n");
-    				}
-    				else
-    				{
-    					fprintf(pf,"%s;%.2f;%.2f\n", usuario->movimientos->fechayhora, usuario->movimientos->cantidad, usuario->saldo);
-					}
-   					 fclose(pf);
-        	}
+            fechayhora(usuario->movimientos);
+            FILE *pf;
+			char ruta[] = "Files/Movimientos/";
+			char nombre_usuario[20];
+			strcpy(nombre_usuario,usuario->nombre);
+			strcat(ruta, nombre_usuario);
+			strcat(ruta, ".txt");
+			pf = fopen(ruta,"a");
+			if(pf==NULL)
+			{
+				printf("Error al abrir fichero.\n");
+				return -1;
+    		}
+			else
+				fprintf(pf,"%s;%.2f;%.2f\n", usuario->movimientos->fechayhora, usuario->movimientos->cantidad, usuario->saldo);
+				
+			 fclose(pf);
+        }
 		else
 		{ //No hay dinero suficiente
-        		system("cls");
-        		printf("\nNo dipone de la cantidad introducida. Introduzca un importe valido.\n\n");
-    		}
+        	system("cls");
+        	printf("\nNo dipone de la cantidad introducida. Introduzca un importe valido.\n\n");
+    	}
 	}while(operacion_valida != 1);
 }
 
-void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
+int ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 {
 	int i;
-	printf("\nIntroducir cantidad a ingresar: ");
+	printf("\n\tIntroducir cantidad a ingresar: ");
     	scanf("%f", &cliente->cantidad);
     	system("cls");
-    	printf("\nIngreso de %.2f E realizado correctamente.\n", cliente->cantidad);
+    	printf("\n\tIngreso de %.2f E realizado correctamente.\n", cliente->cantidad);
     	usuario->saldo += cliente->cantidad;
 		usuario->movimientos->cantidad = cliente->cantidad;
-		printf("\nDispone actualmente de: %.2f E.\n", usuario->saldo);
+		printf("\n\tDispone actualmente de: %.2f E.\n", usuario->saldo);
+		printf("\n\n\tPulse cualquier tecla para continuar. ");
+		getch();
+		system("cls");
 		
 		fechayhora(usuario->movimientos);
 		FILE *pf;
@@ -135,12 +141,12 @@ void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
 		pf = fopen(ruta,"a");
 		if(pf==NULL)
 		{
-			printf("Error al abrir fichero.\n");
+			printf("\nError al abrir fichero.\n");
+			return -1;
     	}
     	else
-    	{
     		fprintf(pf,"%s;%.2f;%.2f\n", usuario->movimientos->fechayhora, usuario->movimientos->cantidad, usuario->saldo);
-		}
+    		
    		fclose(pf);
 }
 
@@ -156,15 +162,18 @@ int imprimeMovimientos (datosUsuario *usuario)
 	pf = fopen(ruta, "r");
 	if (pf == NULL)
 	{
-		printf("Error al abrir el fichero.\n");
+		printf("\nError al abrir el fichero.\n");
 		return -1;
 	}
 	else 
 	{
 		system("cls");
-		printf("FECHA;HORA;CANTIDAD;SALDO\n\n");
+		printf("\n\tFECHA;HORA;CANTIDAD;SALDO\n\n\n");
     	while (fgets(linea, 40, (FILE*) pf))
-			printf("%s\n", linea);	
+			printf("\t%s\n", linea);
+		printf("\n\tPulse cualquier tecla para continuar. ");
+		getch();
+		system("cls");	
     }
     fclose(pf);
 	return 0;
@@ -173,15 +182,18 @@ int imprimeMovimientos (datosUsuario *usuario)
 void cambiarClave (datosUsuario *usuario)
 {
 	char clave_anterior[20], clave_nueva[20];
-	printf("\nIntroduzca su clave actual:\n");
+	printf("\n\tIntroduzca su clave actual: ");
 		scanf("%s", clave_anterior);
 	if (strcmp(clave_anterior, usuario->clave) == 0)
 	{
-		printf("Introduzca su nueva clave:\n");
+		system("cls");
+		printf("\n\tIntroduzca su nueva clave: ");
 			scanf("%s", clave_nueva);
 		strcpy(usuario->clave, clave_nueva); // Cambio clave antigua por la nueva
-		printf("Su clave se ha cambiado correctamente\n");
+		system("cls");
+		printf("\n\tSu clave ha sido cambiada correctamente.");
 		sleep(2);
+		system("cls");
 	}
 	else
 		printf("\nClave incorrecta.\n");

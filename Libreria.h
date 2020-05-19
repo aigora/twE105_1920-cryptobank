@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 
 #define N 20
@@ -28,8 +29,8 @@ int comprobarClave (datosCliente *cliente, datosUsuario *usuario);
 void crearUsuario (datosCliente *cliente, datosUsuario *usuario, FILE *pf);
 int actualizarFile1 (datosUsuario *usuario, FILE *pf); // SOBRESCRIBE EL FILE ANTERIOR
 int actualizarFile2 (datosUsuario *usuario, FILE *pf); // AÑADE INFORMACION AL FILE DESPUES DE SER CREADO
-void retirarEfectivo (datosCliente *cliente, datosUsuario *usuario);
+int retirarEfectivo (datosCliente *cliente, datosUsuario *usuario);
 int imprimeMovimientos (datosUsuario *usuario);
-void ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario);
+int ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario);
 void cambiarClave (datosUsuario *usuario);
 void fechayhora(datosMovimientos *movimientos);
