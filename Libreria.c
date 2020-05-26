@@ -190,7 +190,6 @@ void cambiarClave (datosUsuario *usuario)
 		printf("\n\tIntroduzca su nueva clave: ");
 			scanf("%s", clave_nueva);
 		strcpy(usuario->clave, clave_nueva); // Cambio clave antigua por la nueva
-		system("cls");
 		printf("\n\tSu clave ha sido cambiada correctamente.");
 		sleep(2);
 		system("cls");
