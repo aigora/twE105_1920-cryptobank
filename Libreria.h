@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define N 20
 
