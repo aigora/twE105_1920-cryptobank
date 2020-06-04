@@ -87,8 +87,8 @@ int retirarEfectivo (datosCliente *cliente, datosUsuario *usuario)
             usuario->saldo -= cliente->cantidad;
 			usuario->movimientos->cantidad = -cliente->cantidad;
             printf("\n\tDispone actualmente de: %.2f E.\n", usuario->saldo);
-            printf("\n\n\tPulse cualquier tecla para continuar. ");
-			getch();
+            printf("\n\n\tEspere 3 segundos para continuar. ");
+			sleep(3);
 			system("cls");
             		
             fechayhora(usuario->movimientos);
@@ -127,8 +127,8 @@ int ingresarEfectivo (datosCliente *cliente, datosUsuario *usuario)
     	usuario->saldo += cliente->cantidad;
 		usuario->movimientos->cantidad = cliente->cantidad;
 		printf("\n\tDispone actualmente de: %.2f E.\n", usuario->saldo);
-		printf("\n\n\tPulse cualquier tecla para continuar. ");
-		getch();
+		printf("\n\n\tEspere 3 segundos para continuar. ");
+		sleep(3);
 		system("cls");
 		
 		fechayhora(usuario->movimientos);
@@ -171,8 +171,8 @@ int imprimeMovimientos (datosUsuario *usuario)
 		printf("\n\tFECHA;HORA;CANTIDAD;SALDO\n\n\n");
     	while (fgets(linea, 40, (FILE*) pf))
 			printf("\t%s\n", linea);
-		printf("\n\tPulse cualquier tecla para continuar. ");
-		getch();
+		printf("\n\n\tEspere 5 segundos para continuar. ");
+		sleep(5);
 		system("cls");	
     }
     fclose(pf);
@@ -191,7 +191,8 @@ void cambiarClave (datosUsuario *usuario)
 			scanf("%s", clave_nueva);
 		strcpy(usuario->clave, clave_nueva); // Cambio clave antigua por la nueva
 		printf("\n\tSu clave ha sido cambiada correctamente.");
-		sleep(2);
+		printf("\n\n\tEspere 3 segundos para continuar. ");
+		sleep(3);
 		system("cls");
 	}
 	else
