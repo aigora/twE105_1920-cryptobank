@@ -10,7 +10,7 @@ int main()
 	datosCliente cliente1;
 	FILE *pf; //PUNTERO PARA EL FICHERO
 	
-	pf=fopen("c:Files/usuarios.txt","r"); //ABRIMOS Y ALMACENAMOS LOS DATOS EN VECTORES DE ESTRUCTURAS PARA MANIPULARLOS
+	pf=fopen("Files/usuarios.txt","r"); //ABRIMOS Y ALMACENAMOS LOS DATOS EN VECTORES DE ESTRUCTURAS PARA MANIPULARLOS
         if(pf==NULL)
 		{
             printf("Error al abrir fichero.\n");
@@ -76,8 +76,8 @@ int main()
 										//CONSULTAR SALDO
 											system("cls");
 										    printf("\n\tDispone actualmente de: %.2fE\n", usuarios[i].saldo);
-											printf("\n\n\tPulse cualquier tecla para continuar. ");
-											getch();
+											printf("\n\n\tEspere 3 segundos para continuar. ");
+											sleep(3);
 											system("cls");
 										    break;
 										case 4:
