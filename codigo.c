@@ -2,7 +2,7 @@
 
 int main()
 {
-	int menu, op, i, j=0; // j contabiliza la cantidad de usuarios registrados
+	int menu, op=0, i, j=0,k=0; // j contabiliza la cantidad de usuarios registrados
 	float cantidad;
 	int salida = 0; // INDICA CUANDO DEBE TERMINAR EL PROGRAMA 
 	int intentosUsuario = 5, intentosClave = 5; // VECES QUE PUEDE EQUIVOCARSE EL USUARIO AL INTRODUCIR LOS DATOS
@@ -111,12 +111,14 @@ int main()
 								}
 							}while(comprobarClave(&cliente1, &usuarios[i]) != 0 && intentosClave > 0 && op != 6); // CLAVE INCORRECTA E INTENTOS DISPONIBLES
 						}
-						else if(op != 6)
+						k=1;
+						if (k=1 && op!=6)
 						{
 							system("cls");
 							printf("\n\tUsuario no encontrado. Vuelva a intentarlo.\n");
 							sleep(1);
 						}
+						op=0;
 				}while(comprobarUsuario(&cliente1, &usuarios[i]) != 0 && intentosUsuario > 0 && op != 6); // USUARIO INCORRECTO E INTENTOS DISPONIBLES
 				break;
                 
